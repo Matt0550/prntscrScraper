@@ -10,7 +10,7 @@ THREAD_AMOUNT = int(sys.argv[1])
 print ("=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\nThis script is for educational purposes only! Use on your own responsibility!\n=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=")
 input("Press ENTER if you have read and accept that you are fully responsible for using this script!\n")
 
-INVALID = [0, 503, 5082, 4939, 4940, 4941, 12003, 5556]
+INVALID = [0, 503, 5082, 4939, 4940, 4941, 12003, 5556, 5818]
 
 def scrape_pictures(thread):
     while True:
@@ -24,21 +24,25 @@ def scrape_pictures(thread):
             url += ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(3))
             url += '.jpg'
             # print (url)
-
-
+            directory = './output/'
             filename = url.rsplit('/', 1)[-1]
+
+            file_path = os.path.join(directory, filename)
+            if not os.path.isdir(directory):
+                os.mkdir(directory)
+
             # print (filename)
 
-            h = httplib2.Http('.cache' + thread)
+            h = httplib2.Http(directory+'.cache' + thread)
             response, content = h.request(url)
-            out = open(filename, 'wb')
+            out = open(file_path, 'wb')
             out.write(content)
             out.close()
 
-            file_size = os.path.getsize(filename)
+            file_size = os.path.getsize(file_path)
             if file_size in INVALID:
                 print("[-] Invalid: " + url)
-                os.remove(filename)
+                os.remove(file_path)
             else:
                 print("[+] Valid: " + url)
 
