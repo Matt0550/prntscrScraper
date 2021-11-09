@@ -1,6 +1,6 @@
 #Credits to 'nazarpechka' for helping out with this code
 
-import string, random, os, sys, _thread, httplib2, time
+import string, random, os, sys, _thread, httplib2, time, glob
 # from PIL import Image
 
 if len(sys.argv) < 2:
@@ -44,7 +44,8 @@ def scrape_pictures(thread):
                 print("[-] Invalid: " + url)
                 os.remove(file_path)
             else:
-                print("[+] Valid: " + url)
+                count = len(glob.glob1(directory,"*.jpg"))
+                print(str(count) + ". [+] Valid: " + url)
 
 for thread in range(1, THREAD_AMOUNT + 1):
     thread = str(thread)
@@ -56,3 +57,4 @@ print('Succesfully started ' + thread + ' threads.')
 
 while True:
     time.sleep(1)
+    
